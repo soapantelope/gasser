@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform tsfm;
     private Rigidbody2D rb;
     private Animator animator;
+    private Collider2D col;
 
     public float moveSpeed = 0f;
     public float jumpForce = 0f;
@@ -21,10 +22,12 @@ public class PlayerMovement : MonoBehaviour
         tsfm = gameObject.GetComponent<Transform>();
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
+        col = gameObject.GetComponent<Collider2D>();
     }
 
     void Update()
     {
+        isGrounded = checkGrounded();
         move();
         jump();
     }
@@ -53,5 +56,10 @@ public class PlayerMovement : MonoBehaviour
     void animate() {
         if (X == 0f) animator.SetBool("isWalking", false);
         else animator.SetBool("isWalking", true);
+    }
+
+    bool checkGrounded()
+    {
+        return Physics2D.Raycast(new Vector3(col.transform.position.x, col.bounds.min.y, 0f), -transform.up, 0.5f);
     }
 }

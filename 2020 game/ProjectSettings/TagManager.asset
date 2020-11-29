@@ -42,9 +42,30 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: bg
+  - name: sky
     uniqueID: 2467450711
     locked: 0
-  - name: objects
+  - name: far bg
     uniqueID: 2045539285
+    locked: 0
+  - name: medium bg
+    uniqueID: 3002676847
+    locked: 0
+  - name: close bg
+    uniqueID: 3927175123
+    locked: 0
+  - name: closest bg
+    uniqueID: 2868638885
+    locked: 0
+  - name: ground
+    uniqueID: 587953085
+    locked: 0
+  - name: characters
+    uniqueID: 1567669633
+    locked: 0
+  - name: foreground
+    uniqueID: 890129423
+    locked: 0
+  - name: blurred foreground
+    uniqueID: 3532862447
     locked: 0
