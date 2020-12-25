@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Player
 {
     private Transform tsfm;
     private Rigidbody2D rb;
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void jump() {
-        if (Input.GetButtonDown("Jump") && isGrounded) {
+        if (Input.GetKeyDown("w") && isGrounded) {
             rb.AddForce(new Vector3(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
