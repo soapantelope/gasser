@@ -52,13 +52,18 @@
     <UnityVersion>2020.1.8f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Characters\Player\PlayerFight.cs" />
-    <Compile Include="Assets\Scripts\Characters\Player\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\Player.cs" />
-    <Compile Include="Assets\Scripts\Characters\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Characters\Player\PlayerFight.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\EnemyMovement.cs" />
+    <Compile Include="Assets\Scripts\Characters\Player\ThirstBar.cs" />
+    <Compile Include="Assets\Scripts\Characters\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\HealthBar.cs" />
+    <Compile Include="Assets\Scripts\Characters\Enemy\EnemyFight.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
+    <Compile Include="Assets\Scripts\Characters\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Scripts\SceneTrigger.cs" />
+    <Compile Include="Assets\Scripts\ChemToggle.cs" />
+    <Compile Include="Assets\Scripts\Characters\Player\Projectile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

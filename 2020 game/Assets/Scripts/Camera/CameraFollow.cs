@@ -26,11 +26,6 @@ public class CameraFollow : MonoBehaviour
     {
         followPlayer();
         clampToBounds();
-
-        // check triggers
-        //for (int i = 0; i < xTriggerPoints.Count; i++) {
-
-        //}
     }
 
     void followPlayer() {

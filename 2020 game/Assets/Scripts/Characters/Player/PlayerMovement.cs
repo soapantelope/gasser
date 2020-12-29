@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : Player
+public class PlayerMovement : MonoBehaviour
 {
     private Transform tsfm;
     private Rigidbody2D rb;

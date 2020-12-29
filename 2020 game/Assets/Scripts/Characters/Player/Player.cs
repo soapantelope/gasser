@@ -1,15 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float health;
 
+    public float maxThirst = 100f;
+    public float thirst;
+    public float thirstRate;
+
     void Start()
     {
         health = maxHealth;
+        thirst = maxThirst;
+    }
+
+    void Update()
+    {
+        thirst -= thirstRate;
     }
 
     public void takeDamage(float damage)
@@ -23,6 +34,6 @@ public class Player : MonoBehaviour
     }
 
     public void die() {
-        Debug.Log("You died");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

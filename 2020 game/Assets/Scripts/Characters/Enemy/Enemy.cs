@@ -10,11 +10,15 @@ public class Enemy : MonoBehaviour
     public EnemyMovement controller;
     public Animator animator;
 
+    public Collider2D myCol;
+    public Collider2D projectile;
+
     void Start()
     {
         health = maxHealth;
         controller = gameObject.GetComponent<EnemyMovement>();
         animator = gameObject.GetComponent<Animator>();
+        myCol = gameObject.GetComponent<Collider2D>();
     }
 
     public void takeDamage(float damage)
