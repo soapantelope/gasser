@@ -15,17 +15,17 @@ public class CameraFollow : MonoBehaviour
 
     public float mapX, mapY;
     private float left, right, bottom, top;
-    private float z;
+    public float z;
 
     void Start()
     {
-        setCameraBounds();
+        //setCameraBounds();
     }
 
     void Update()
     {
         followPlayer();
-        clampToBounds();
+        //clampToBounds();
     }
 
     void followPlayer() {
@@ -33,10 +33,10 @@ public class CameraFollow : MonoBehaviour
         transform.position = Vector3.Slerp(transform.position, targetPosition, camSpeed);
     }
 
+    /*
     void setCameraBounds() {
         float YExtent = Camera.main.orthographicSize;
         float XExtent = YExtent * (Screen.width / Screen.height);
-        z = transform.position.z;
 
         // Map & camera have to be at origin
         left = XExtent - mapX / 2.0f;
@@ -49,6 +49,14 @@ public class CameraFollow : MonoBehaviour
         Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, left, right);
         pos.y = Mathf.Clamp(pos.y, bottom, top);
-        transform.position = pos;
+        transform.position = new Vector3 (pos.x, pos.y, z);
+    }*/
+
+    private void OnDrawGizmosSelected()
+    {
+        float YExtent = Camera.main.orthographicSize;
+        float XExtent = YExtent * (Screen.width / Screen.height);
+        Gizmos.DrawLine(new Vector3(XExtent - mapX / 2.0f, transform.position.y, transform.position.z), new Vector3(mapX / 2.0f - XExtent, transform.position.y, transform.position.z));
+        Gizmos.DrawLine(new Vector3(transform.position.x, YExtent - mapY / 2.0f, transform.position.z), new Vector3(transform.position.x, mapY / 2.0f - YExtent, transform.position.z));
     }
 }
