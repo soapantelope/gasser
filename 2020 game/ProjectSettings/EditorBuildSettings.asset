@@ -11,4 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Room 1.unity
     guid: b9212515e2b39e744b8482ad90eeaf5b
+  - enabled: 1
+    path: Assets/Scenes/Room 2.unity
+    guid: 8fb304638496755438dec1e2a588a7ee
+  - enabled: 1
+    path: Assets/Scenes/Room 3.unity
+    guid: 17c8c1c07e46c1445b3c5f52b860f6b1
+  - enabled: 1
+    path: Assets/Scenes/Room 4.unity
+    guid: 8dfe6f51a6ceb974f8b5b260d92fa16b
+  - enabled: 1
+    path: Assets/Scenes/Bimby's House.unity
+    guid: 17ed5b10beab8794fad38a6b64f77348
   m_configObjects: {}

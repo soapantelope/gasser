@@ -6,16 +6,12 @@ using UnityEngine.UI;
 
 public class SceneTrigger : MonoBehaviour
 {
-    public Collider2D col;
-
-    private void Start()
-    {
-        col = gameObject.GetComponent<Collider2D>();
-    }
+    public string targetScene;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (collision.gameObject.tag == "Player")
+            SceneManager.LoadScene(targetScene);
     }
 
 }
