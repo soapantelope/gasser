@@ -53,6 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Characters\Player\Player.cs" />
+    <Compile Include="Assets\Scripts\Characters\Player\Projectile.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\PlayerFight.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\Characters\Player\ThirstBar.cs" />
@@ -62,8 +63,8 @@
     <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Characters\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\SceneTrigger.cs" />
-    <Compile Include="Assets\Scripts\ChemToggle.cs" />
-    <Compile Include="Assets\Scripts\Characters\Player\Projectile.cs" />
+    <Compile Include="Assets\Scripts\Static.cs" />
+    <Compile Include="Assets\Scripts\ExitState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -8,14 +8,13 @@ public class PlayerFight : MonoBehaviour
     [Header("Misc References")]
     public Animator animator;
     public LayerMask enemyLayer;
-    public Text text;
-    public Text equippedText;
 
     [Header("Melee")]
     public Transform meleePoint;
     public float meleeRange;
     public int meleeDamage;
     public float meleeKnockback;
+    public float meleeRate;
 
     [Header("Projectile")]
     public Projectile projectile;
@@ -23,32 +22,9 @@ public class PlayerFight : MonoBehaviour
     public float projectileRange;
     public float projectileSpeed;
     public float projectileKnockback;
+    public float projectileRate;
 
-    [Header("Gas")]
-
-    [Header("Attack Rates")]
-    public float oneRate;
-    public float twoRate;
-    public float threeRate;
     private float nextAttackTime;
-
-    [Header("Chemical Combos")]
-    public List<Toggle> toggles = new List<Toggle>(3);
-    public int currentChem = 0;
-    private List<int> chemicals = new List<int>() { 1, 3, 5 };
-    private int combo = 0;
-    private Dictionary<int, string> attacks = new Dictionary<int, string>() {
-        { 0, "nothing"},
-        { 1, "melee"},
-        { 3, "projectiles"},
-        { 5, "fog"},
-        { 4, "grenade"},
-        { 6, "poisonGas"},
-        { 8, "iceBarrier"},
-        { 9, "epic"}
-    };
-    private List<int> equipped = new List<int>();
-
     private int direction = 1;
 
     void Start()
@@ -59,39 +35,13 @@ public class PlayerFight : MonoBehaviour
     void Update()
     {
         direction = (int) (gameObject.transform.lossyScale.x / Mathf.Abs(gameObject.transform.lossyScale.x));
-        text.text = "= " + attacks[combo];
-
-        string equippedTxt = "";
-        foreach (int num in equipped) {
-            equippedTxt += attacks[chemicals[num]] + " + ";
-        }
-        equippedText.text = equippedTxt;
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            if (currentChem >= 2) currentChem = 0;
-            else currentChem += 1;
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Q)) {
-            equipped.Clear();
-            combo = 0;
-            foreach (Toggle toggle in toggles) toggle.isOn = false;
-        }
-
-        else if (Input.GetKeyDown(KeyCode.E) && !equipped.Contains(currentChem))
-        {
-            equipped.Add(currentChem);
-            combo += chemicals[currentChem];
-            toggles[currentChem].isOn = true;
-        }
-
+        
         if (Time.time >= nextAttackTime)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Invoke(attacks[combo], 0f);
-                nextAttackTime = Time.time + 1f / oneRate;
+                melee();
+                nextAttackTime = Time.time + meleeRate;
             }
         }
     }
@@ -114,32 +64,8 @@ public class PlayerFight : MonoBehaviour
         damage(meleeDamage, meleePoint.position, meleeRange, meleeKnockback);
     }
 
-    private void nothing() {
-        Debug.Log("You don't have any chemicals equipped right now.");
-    }
-
     private void projectiles() {
         StartCoroutine(projectile.shoot(projectileDamage, projectileSpeed, transform.position, projectileRange, direction, projectileKnockback));
-    }
-
-    private void fog() {
-
-    }
-
-    private void grenade() {
-
-    }
-
-    private void poisonGas() {
-
-    }
-
-    private void iceBarrier() {
-
-    }
-
-    private void epic() {
-
     }
 
     // In editor:
@@ -147,7 +73,5 @@ public class PlayerFight : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(meleePoint.position, meleeRange);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + new Vector3(projectileRange, 0, 0));
     }
 }

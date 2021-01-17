@@ -12,8 +12,14 @@ public class Player : MonoBehaviour
     public float thirst;
     public float thirstRate;
 
+    public GameObject entrance;
+    public GameObject exit;
+
     void Start()
     {
+        if (Static.enterExit == "Exit") transform.position = entrance.transform.position;
+        else transform.position = exit.transform.position;
+
         health = maxHealth;
         thirst = maxThirst;
     }
