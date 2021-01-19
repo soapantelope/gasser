@@ -11,14 +11,8 @@ public class SceneTrigger : MonoBehaviour
 
     public ExitState state;
 
-    private void Update()
-    {
-        Debug.Log(state.exit);
-    }
-
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Entered new trigger");
         if (state.exit && col.gameObject.tag == "Player")
         { 
             Static.enterExit = enterOrExit;
@@ -28,6 +22,5 @@ public class SceneTrigger : MonoBehaviour
     private void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player") state.exit = true;
-        Debug.Log("Exit the entrance");
     }
 }
