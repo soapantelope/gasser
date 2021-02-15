@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f4cf8898eab30c42a1325276a8fe16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alive: 1
   maxHealth: 100
   health: 100
   controller: {fileID: 5745736730470086396}
@@ -191,7 +192,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   player: {fileID: 0}
-  movement: {fileID: 0}
 --- !u!61 &832402803462240069
 BoxCollider2D:
   m_ObjectHideFlags: 0

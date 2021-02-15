@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    public float lerpRate = 3f;
     public Player player;
     public Slider slider;
 
@@ -16,6 +17,7 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
-        slider.value = player.health;
+        slider.value = Mathf.Lerp(slider.value, player.health, lerpRate * Time.deltaTime);
     }
+
 }

@@ -16,14 +16,6 @@ public class PlayerFight : MonoBehaviour
     public float meleeKnockback;
     public float meleeRate;
 
-    [Header("Projectile")]
-    public Projectile projectile;
-    public int projectileDamage;
-    public float projectileRange;
-    public float projectileSpeed;
-    public float projectileKnockback;
-    public float projectileRate;
-
     private float nextAttackTime;
     private int direction = 1;
 
@@ -64,9 +56,6 @@ public class PlayerFight : MonoBehaviour
         damage(meleeDamage, meleePoint.position, meleeRange, meleeKnockback);
     }
 
-    private void projectiles() {
-        StartCoroutine(projectile.shoot(projectileDamage, projectileSpeed, transform.position, projectileRange, direction, projectileKnockback));
-    }
 
     // In editor:
     private void OnDrawGizmosSelected()

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ExitState : MonoBehaviour
 {
-    public bool exit = false;
+    public bool inTrigger = false;
 }

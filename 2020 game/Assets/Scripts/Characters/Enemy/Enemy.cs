@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public bool alive = true;
+
     public float maxHealth = 100f;
     public float health;
 
@@ -36,9 +38,8 @@ public class Enemy : MonoBehaviour
 
     public void die()
     {
-        // play death animation
-        Debug.Log("You killed something");
-        Destroy(gameObject);
+        alive = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
     }
 
 }

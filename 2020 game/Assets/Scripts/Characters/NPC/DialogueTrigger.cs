@@ -5,8 +5,18 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
+    public DialogueManager manager;
+
+    private void Start()
+    {
+        manager = FindObjectOfType<DialogueManager>();
+    }
 
     public void triggerDialogue() {
-        FindObjectOfType<DialogueManager>().startDialogue(dialogue);
+        manager.startDialogue(dialogue);
+    }
+
+    public void nextDialogue() {
+        manager.displayNextSentence();
     }
 }

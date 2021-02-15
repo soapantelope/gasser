@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    public GameObject textBox;
+    public Text nameText;
+    public Text dialogueText;
+
     private Queue<string> sentences;
+    public Player player;
 
     void Start()
     {
@@ -12,7 +18,9 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void startDialogue(Dialogue dialogue) {
-        Debug.Log("Starting convo with " + dialogue.name);
+
+        textBox.SetActive(true);
+        nameText.text = dialogue.name;
 
         sentences.Clear();
 
@@ -30,10 +38,11 @@ public class DialogueManager : MonoBehaviour
         }
 
         string sentence = sentences.Dequeue();
-        Debug.Log(sentence);
+        dialogueText.text = sentence;
     }
 
     private void endDialogue() {
-
+        player.currentlyTalking = false;
+        textBox.SetActive(false);
     }
 }

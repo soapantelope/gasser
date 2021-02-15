@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private Collider2D col;
+    private Player player;
 
     public float moveSpeed = 0f;
     public float jumpForce = 0f;
@@ -23,12 +24,14 @@ public class PlayerMovement : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
         col = gameObject.GetComponent<Collider2D>();
+        player = gameObject.GetComponent<Player>();
     }
 
     void Update()
     {
         isGrounded = checkGrounded();
-        move();
+        if (!player.currentlyTalking)
+            move();
         jump();
     }
 

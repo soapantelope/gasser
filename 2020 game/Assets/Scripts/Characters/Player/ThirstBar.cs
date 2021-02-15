@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ThirstBar : MonoBehaviour
 {
+    public float lerpRate = 3f;
     public Player player;
     public Slider slider;
 
@@ -16,6 +17,6 @@ public class ThirstBar : MonoBehaviour
 
     void Update()
     {
-        slider.value = player.thirst;
+        slider.value = Mathf.Lerp(slider.value, player.thirst, lerpRate * Time.deltaTime);
     }
 }

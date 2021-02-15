@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    private Enemy body;
+
     [Header("Wander Range")]
     public float leftPoint;
     public float rightPoint;
@@ -28,19 +30,23 @@ public class EnemyMovement : MonoBehaviour
     public LayerMask playerLayer;
     public GameObject player;
 
-    void Start()
+    private void Start()
     {
-        // stopRange = enemyFight.stopRange;
+        body = gameObject.GetComponent<Enemy>();
     }
 
     void Update()
     {
-        if (agressive) {
-            checkForPlayer();
-        }
+        if (body.alive)
+        {
+            if (agressive)
+            {
+                checkForPlayer();
+            }
 
-        // Calls the method from the current status
-        Invoke(statuses[status], 0f);
+            // Calls the method from the current status
+            Invoke(statuses[status], 0f);
+        }
     }
 
     void checkForPlayer()

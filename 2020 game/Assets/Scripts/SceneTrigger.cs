@@ -3,24 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 
 public class SceneTrigger : MonoBehaviour
 {
-    public string targetScene;
-    public string enterOrExit = "Enter";
+    public SceneTrigger targetPlace;
+    public ExitState exitState;
 
-    public ExitState state;
+    private bool transitioned = false;
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (state.exit && col.gameObject.tag == "Player")
-        { 
-            Static.enterExit = enterOrExit;
-            SceneManager.LoadScene(targetScene);
+        if (!exitState.inTrigger && col.gameObject.tag == "Player")
+        {
+            exitState.inTrigger = true;
+            transitioned = true;
+            transform.parent.gameObject.SetActive(false);
+            GameObject targetScene = targetPlace.transform.parent.gameObject;
+            targetScene.SetActive(true);
+            col.transform.position = targetPlace.transform.position;
+            col.gameObject.GetComponent<Player>().tilemap = targetScene.transform.GetChild(targetScene.transform.childCount - 1).GetChild(0).GetComponent<Tilemap>();
         }
+
+        transitioned = false;
     }    
     private void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Player") state.exit = true;
+        if (!transitioned && col.gameObject.tag == "Player") exitState.inTrigger = false;
     }
 }
