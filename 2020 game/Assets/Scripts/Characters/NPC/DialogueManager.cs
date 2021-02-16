@@ -43,6 +43,7 @@ public class DialogueManager : MonoBehaviour
 
     private void endDialogue() {
         player.currentlyTalking = false;
+        player.gameObject.GetComponent<PlayerMovement>().talking = false;
         textBox.SetActive(false);
     }
 }

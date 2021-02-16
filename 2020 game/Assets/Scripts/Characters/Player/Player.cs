@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public float thirstRate = 0.1f;
 
     [Header("NPC Interaction")]
-    private GameObject npc;
+    public GameObject npc;
     public LayerMask NPCLayer;
     public float talkRadius;
     public bool currentlyTalking = false;
@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         thirst -= thirstRate * Time.deltaTime;
+        if (thirst >= 100f) thirst = 100;
 
         NPCInteraction();
         lifeSuck();
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour
             npc = Physics2D.OverlapCircleAll(transform.position, talkRadius, NPCLayer)[0].gameObject;
             npc.GetComponent<DialogueTrigger>().triggerDialogue();
             currentlyTalking = true;
+            gameObject.GetComponent<PlayerMovement>().talking = currentlyTalking;
         }
 
         else if (currentlyTalking && Input.GetKeyDown(KeyCode.E))
@@ -103,7 +105,6 @@ public class Player : MonoBehaviour
             }
 
             thirst += numSucked * thirstMultiplier * Time.deltaTime;
-            if (thirst >= 100f) thirst = 100;
         }
 
 

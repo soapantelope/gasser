@@ -5,20 +5,20 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public bool alive = true;
+    public bool hurt = false;
 
     public float maxHealth = 100f;
     public float health;
 
-    public EnemyMovement controller;
+    public float thirstGift;
+
     public Animator animator;
 
     public Collider2D myCol;
-    public Collider2D projectile;
 
     void Start()
     {
         health = maxHealth;
-        controller = gameObject.GetComponent<EnemyMovement>();
         animator = gameObject.GetComponent<Animator>();
         myCol = gameObject.GetComponent<Collider2D>();
     }
@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
     public void takeDamage(float damage)
     {
         health -= damage;
-        controller.status = 1;
+        hurt = true;
 
         animator.SetTrigger("Hurt");
 

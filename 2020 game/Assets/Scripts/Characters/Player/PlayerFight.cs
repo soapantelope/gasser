@@ -14,6 +14,7 @@ public class PlayerFight : MonoBehaviour
     public float meleeRange;
     public int meleeDamage;
     public float meleeKnockback;
+    public float bossKnockback;
     public float meleeRate;
 
     private float nextAttackTime;
@@ -47,7 +48,13 @@ public class PlayerFight : MonoBehaviour
             {
                 Enemy enemy = enemyCol.GetComponent<Enemy>();
                 enemy.takeDamage(amount);
-                enemy.GetComponent<Rigidbody2D>().AddForce(new Vector3(knockback * (transform.lossyScale.x / Mathf.Abs(transform.lossyScale.x)) * 0.6f, knockback, 0), ForceMode2D.Impulse);
+                if (enemy.gameObject.tag == "Boss") {
+                    gameObject.GetComponent<Player>().thirst += enemy.thirstGift;
+                    enemy.GetComponent<Rigidbody2D>().AddForce(new Vector3(bossKnockback * 
+                        (transform.lossyScale.x / Mathf.Abs(transform.lossyScale.x)) * 0.6f, bossKnockback/5, 0), ForceMode2D.Impulse);
+                }
+                else enemy.GetComponent<Rigidbody2D>().AddForce(new Vector3(knockback * 
+                    (transform.lossyScale.x / Mathf.Abs(transform.lossyScale.x)) * 0.6f, knockback, 0), ForceMode2D.Impulse);
             }
         }
     }

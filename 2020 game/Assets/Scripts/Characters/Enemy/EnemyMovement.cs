@@ -44,6 +44,10 @@ public class EnemyMovement : MonoBehaviour
                 checkForPlayer();
             }
 
+            else if (body.hurt) {
+                status = 1;
+            }
+
             // Calls the method from the current status
             Invoke(statuses[status], 0f);
         }

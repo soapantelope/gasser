@@ -66,6 +66,8 @@
     <Compile Include="Assets\Scripts\Characters\NPC\DialogueTrigger.cs" />
     <Compile Include="Assets\Scripts\SceneTrigger.cs" />
     <Compile Include="Assets\Scripts\Characters\NPC\Dialogue.cs" />
+    <Compile Include="Assets\Momby.cs" />
+    <Compile Include="Assets\EnemyHealthbar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
