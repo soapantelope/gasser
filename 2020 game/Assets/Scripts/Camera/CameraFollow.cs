@@ -9,16 +9,16 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset;
     public float camSpeed;
 
-    public float z = -18f;
+    public float z;
+
+    private void Start()
+    {
+        z = player.gameObject.GetComponent<Player>().camDistance;
+    }
 
     void Update()
     {
-        followPlayer();
-    }
-
-    void followPlayer() {
-        Vector3 targetPosition = new Vector3(player.position.x + offset.x, player.position.y + offset.y, z);
-        transform.position = Vector3.Slerp(transform.position, targetPosition, camSpeed);
+        transform.position = new Vector3(transform.position.x, transform.position.y, z);
     }
 
 }

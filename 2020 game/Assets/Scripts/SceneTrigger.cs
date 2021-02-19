@@ -14,17 +14,25 @@ public class SceneTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (!exitState.inTrigger && col.gameObject.tag == "Player")
+        if (!exitState.inTrigger)
         {
-            exitState.inTrigger = true;
-            transitioned = true;
-            transform.parent.gameObject.SetActive(false);
-            GameObject targetScene = targetPlace.transform.parent.gameObject;
-            targetScene.SetActive(true);
-            col.transform.position = targetPlace.transform.position;
-            col.gameObject.GetComponent<Player>().tilemap = targetScene.transform.GetChild(targetScene.transform.childCount - 1).GetChild(0).GetComponent<Tilemap>();
+            if (col.gameObject.tag == "Player")
+            {
+                exitState.inTrigger = true;
+                transitioned = true;
+                transform.parent.gameObject.SetActive(false);
+                GameObject targetScene = targetPlace.transform.parent.gameObject;
+                targetScene.SetActive(true);
+                col.transform.position = targetPlace.transform.position;
+                col.gameObject.GetComponent<Player>().tilemap = targetScene.transform.GetChild(targetScene.transform.childCount - 1).GetChild(0).GetComponent<Tilemap>();
+            }
+            else if (col.gameObject.tag == "NPC") {
+                col.gameObject.transform.SetParent(targetPlace.gameObject.transform.parent);
+                col.gameObject.transform.SetAsFirstSibling();
+                col.transform.position = targetPlace.transform.position;
+            }
         }
-
+           
         transitioned = false;
     }    
     private void OnTriggerExit2D(Collider2D col)
