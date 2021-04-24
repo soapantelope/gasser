@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public GameObject playerUI;
     public AngryForm angryForm;
     public Button release;
+    public SFXManager sfx;
     public float camDistance;
 
     [Header("Health")]
@@ -37,6 +38,8 @@ public class Player : MonoBehaviour
     public float thirstMultiplier;
     public Tilemap tilemap;
     public Tile deadTile;
+    public Tile mombyTile;
+    public bool canTransform = false;
 
     void Start()
     {
@@ -45,14 +48,20 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (health <= 0)
+        {
+            die();
+        }
+
         thirst -= thirstRate * Time.deltaTime;
         if (thirst >= 100f)
         {
             thirst = 100;
         }
+
         else {
             lifeSuck();
-            if (thirst >= 97.5)
+            if (thirst >= 97.5 && canTransform)
             {
                 release.gameObject.SetActive(true);
             }
@@ -63,7 +72,7 @@ public class Player : MonoBehaviour
         }
 
         NPCInteraction();
-        lifeSuck();
+        if (thirst <= 100f) lifeSuck();
         regen();
     }
 
@@ -87,10 +96,6 @@ public class Player : MonoBehaviour
         if (thirst <= 0) thirst = 0;
 
         health -= damage;
-
-        if (health <= 0) {
-            die();
-        }
     }
 
     public void regen() {
@@ -106,6 +111,13 @@ public class Player : MonoBehaviour
     public void lifeSuck() {
 
         int numSucked = 0;
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            sfx.play("suck");
+        }
+        else if (Input.GetKeyUp(KeyCode.S)) {
+            sfx.stop("suck");
+        }
 
         if (Input.GetKey(KeyCode.S) && thirst <= 100f)
         {
@@ -114,14 +126,17 @@ public class Player : MonoBehaviour
             for (int i = suckRange * -1; i <= suckRange; i++)
             {
                 Vector3Int currentCoord = coord + new Vector3Int(i, 0, 0);
-                if (tilemap.HasTile(currentCoord) && tilemap.GetTile(currentCoord) != deadTile && !tilemap.HasTile(currentCoord + new Vector3Int(0, 1, 0)))
+                if (tilemap.HasTile(currentCoord) && tilemap.GetTile(currentCoord) != deadTile && tilemap.GetTile(currentCoord) != mombyTile && !tilemap.HasTile(currentCoord + new Vector3Int(0, 1, 0)))
                 {
                     Color color = tilemap.GetColor(currentCoord);
                     tilemap.SetTileFlags(currentCoord, TileFlags.None);
-                    tilemap.SetColor(currentCoord, new Color(1, color.g - 0.4f * Time.deltaTime, color.b - 0.4f * Time.deltaTime, 1));
-                    
-                    if (color.g <= 0)
+                    tilemap.SetColor(currentCoord, new Color(color.r + 0.4f * Time.deltaTime, color.g + 0.4f * Time.deltaTime, color.b + 0.4f * Time.deltaTime, 1));
+
+                    if (color.g >= 1)
+                    {
                         tilemap.SetTile(currentCoord, deadTile);
+                    }
+
                     numSucked++;
                 }
 
@@ -132,9 +147,10 @@ public class Player : MonoBehaviour
 
     }
     public void thirstTransform() {
+        sfx.play("roar");
         angryForm.gameObject.SetActive(true);
         angryForm.onCreation();
-        angryForm.transform.position = transform.position;
+        angryForm.transform.position = transform.position + new Vector3(0, 4);
         playerUI.SetActive(false);
         gameObject.SetActive(false);
     }
@@ -144,6 +160,10 @@ public class Player : MonoBehaviour
         gameObject.GetComponent<PlayerMovement>().talking = false;
         if (npc.gameObject.name == "Bimby") {
             npc.GetComponent<Bimby>().running = true;
+            npc.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        if (npc.gameObject.name == "Momby") {
+            npc.GetComponent<Momby>().startAttacking();
         }
     }
 }

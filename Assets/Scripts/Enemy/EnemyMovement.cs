@@ -50,6 +50,8 @@ public class EnemyMovement : MonoBehaviour
 
             // Calls the method from the current status
             Invoke(statuses[status], 0f);
+
+            
         }
     }
 
@@ -64,6 +66,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (transform.position.x > rightPoint || transform.position.x < leftPoint) {
             currentDirection *= -1;
+            transform.localScale = new Vector3(-(transform.localScale.x * -1), transform.localScale.y, 1);
         }
         transform.position += new Vector3(currentDirection, 0, 0) * Time.deltaTime * wanderSpeed;
     }
@@ -71,10 +74,12 @@ public class EnemyMovement : MonoBehaviour
     private void escape() {
         transform.position += new Vector3(-directionToPlayer(), 0, 0) * Time.deltaTime * escapeSpeed;
         if (!Physics2D.OverlapCircle(transform.position, safeStopRange, playerLayer)) status = 0;
+        transform.localScale = new Vector3(System.Math.Abs(transform.localScale.x) * directionToPlayer(), transform.localScale.y, 1);
     }
 
     private void chase() {
         transform.position += new Vector3(directionToPlayer(), 0, 0) * Time.deltaTime * chaseSpeed;
+        transform.localScale = new Vector3(System.Math.Abs(transform.localScale.x) * -directionToPlayer(), transform.localScale.y, 1);
     }
 
     private int directionToPlayer() {

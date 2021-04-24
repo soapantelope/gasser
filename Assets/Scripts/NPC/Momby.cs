@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Momby : MonoBehaviour
 {
@@ -19,20 +21,27 @@ public class Momby : MonoBehaviour
     public Player player;
     public GameObject door;
     public EnemyHealthBar healthBar;
+    public GameObject outsideBimby;
+    public SFXManager sfx;
+    public GameObject transformText;
+    public SceneFade black;
+    public Text TBC;
 
     // Make this more flexible later
     public SceneTrigger explodeTrigger;
     public GameObject outsideDoor;
     public GameObject outsideBlocker;
+    public GameObject outsideHouse;
+    public GameObject musicTrigger;
     public LayerMask playerLayer;
     public LayerMask groundLayer;
 
     private bool seen = false;
-    public bool hitWall = false;
     private int direction;
-    private float nextAttackTime;
     private Enemy body;
     private Rigidbody2D rb;
+
+    private bool exploded = false;
 
     private void Start()
     {
@@ -46,6 +55,8 @@ public class Momby : MonoBehaviour
         {
             if (!seen && Physics2D.OverlapCircle(transform.position, sightRange, playerLayer))
             {
+                sfx.stop("house");
+                sfx.play("action");
                 gameObject.GetComponent<DialogueTrigger>().triggerDialogue();
                 player.currentlyTalking = true;
                 player.npc = gameObject;
@@ -55,35 +66,30 @@ public class Momby : MonoBehaviour
                 gameObject.layer = 8;
             }
 
-            else if (seen && !player.currentlyTalking)
+            if (!exploded && body.health <= explodePoint)
             {
-                fight();
-            }
-
-            if (body.health <= explodePoint)
-            {
+                exploded = true;
                 explodeStage();
             }
         }
     }
 
-    private void fight() {
-        if (Time.time >= nextAttackTime) {
-            hitWall = false;
-            direction = directionToPlayer();
-            transform.localScale = new Vector3(System.Math.Abs(transform.localScale.x) * direction, transform.localScale.y, 1);
-            StartCoroutine(charge(direction));
-            nextAttackTime = Time.time + 10000;
-        }
+    public void startAttacking() {
+        direction = directionToPlayer();
+        transform.localScale = new Vector3(System.Math.Abs(transform.localScale.x) * -direction, transform.localScale.y, 1);
+        StartCoroutine(charge(direction));
     }
 
     IEnumerator charge(int direction) {
-        while (!hitWall) {
+        yield return new WaitForSeconds(cooldown);
+        bool hitWall = false;
+        while (!hitWall)
+        {
             transform.position = transform.position + new Vector3(speed * direction * Time.deltaTime, 0, 0);
-            hitWall = Physics2D.Raycast(transform.position + new Vector3(wallDistance, 0, 0), Vector2.left, wallDistance * 2, groundLayer);
+            hitWall = Physics2D.Raycast(transform.position, new Vector2(direction, 0), wallDistance, groundLayer);
             yield return null;
-        }
-        nextAttackTime = Time.time + cooldown;
+        }        
+        startAttacking();
     }
 
     private int directionToPlayer()
@@ -96,8 +102,7 @@ public class Momby : MonoBehaviour
     {
         Gizmos.DrawWireSphere(transform.position, sightRange);
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position - new Vector3(wallDistance, 0, 0),
-            transform.position + new Vector3(wallDistance, 0, 0));
+        Gizmos.DrawLine(transform.position, transform.position - new Vector3(wallDistance, 0, 0));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -120,15 +125,35 @@ public class Momby : MonoBehaviour
 
     private void explodeStage() {
         // animate explosion
+        sfx.play("crash");
+        player.canTransform = true;
+        transformText.gameObject.SetActive(true);
         explodeTrigger.gameObject.SetActive(true);
         transform.parent = outsideDoor.transform.parent.transform;
+        outsideBimby.gameObject.SetActive(true);
         transform.SetAsFirstSibling();
+        musicTrigger.SetActive(false);
+        outsideHouse.SetActive(false);
         outsideDoor.SetActive(false);
         outsideBlocker.SetActive(true);
     }
 
     public void die() {
-        Debug.Log("Die");
+        transformText.gameObject.SetActive(false);
+        musicTrigger.SetActive(true);
         healthBar.gameObject.SetActive(false);
+        outsideBlocker.SetActive(false);
+        StartCoroutine(finishGame());
+    }
+
+    IEnumerator finishGame() {
+        for (float i = 0; i <= 1; i += 0.3f * Time.deltaTime)
+        {
+            black.gameObject.GetComponent<Image>().color = new Color(0, 0, 0, i);
+            yield return null;
+        }
+        TBC.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("Menu");
     }
 }

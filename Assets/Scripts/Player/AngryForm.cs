@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Cinemachine;
 public class AngryForm : MonoBehaviour
 {
     public Slider timerBar;
     public Player player;
     public Hand hand;
+    public TutorialTrigger handMessage;
 
     public float lifespan;
     public float camDistance;
@@ -23,12 +23,13 @@ public class AngryForm : MonoBehaviour
         if (percentTime >= 1) {
             player.transform.position = transform.position;
             player.gameObject.SetActive(true);
-            player.playerUI.SetActive(true);
+            player.playerUI.SetActive(true); 
             timerBar.gameObject.SetActive(false);
             hand.gameObject.SetActive(false);
-            hand.cam.m_Lens.FieldOfView = player.camDistance;
-            hand.cam.Follow = player.transform;
-            player.thirst = 0;
+            hand.cam.z = player.camDistance;
+            hand.cam.currentCamSpeed = hand.cam.normalCamSpeed;
+            hand.cam.player = player.transform;
+            player.thirst = 30;
             gameObject.SetActive(false);
         }
     }
@@ -36,8 +37,10 @@ public class AngryForm : MonoBehaviour
     public void onCreation() {
         timerBar.gameObject.SetActive(true);
         hand.gameObject.SetActive(true);
-        hand.cam.Follow = hand.transform;
-        hand.cam.m_Lens.FieldOfView = camDistance;
+        handMessage.gameObject.SetActive(true);
+        hand.cam.player = hand.transform;
+        hand.cam.currentCamSpeed = hand.cam.angryCamSpeed;
+        hand.cam.z = camDistance;
         startTime = Time.time;
         // Do things on creation
     }

@@ -17,7 +17,13 @@ public class PlayerMovement : MonoBehaviour
     private int direction = 1;
     private float X = 0f;
     private float previousX = 0f;
-   
+
+    private bool jumping = false;
+    private bool finishedJump = false;
+
+    [Header("Sound")]
+    public SFXManager sfx;
+
     void Start()
     {
         tsfm = gameObject.GetComponent<Transform>();
@@ -31,9 +37,21 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = checkGrounded();
         if (!talking) move();
         jump();
+        if (jumping && isGrounded) {
+            jumping = false;
+            finishedJump = true;
+        }
     }
 
     void move() {
+        if (Input.GetKeyDown("d") || Input.GetKeyDown("a") || finishedJump)
+        {
+            finishedJump = false;
+            sfx.play("footsteps");
+        }
+        else if (Input.GetKeyUp("d") || Input.GetKeyUp("a")) {
+            sfx.stop("footsteps");
+        }
         X = Input.GetAxisRaw("Horizontal");
         Vector3 movement = new Vector3(X, 0f, 0f);
         
@@ -50,6 +68,8 @@ public class PlayerMovement : MonoBehaviour
 
     void jump() {
         if (Input.GetKeyDown("w") && isGrounded) {
+            jumping = true;
+            sfx.stop("footsteps");
             rb.AddForce(new Vector3(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
