@@ -48,6 +48,7 @@ public class PlayerFight : MonoBehaviour
             {
                 Enemy enemy = enemyCol.GetComponent<Enemy>();
                 enemy.takeDamage(amount);
+                gameObject.GetComponent<Player>().thirst += enemy.thirstGift;
                 if (enemy.gameObject.tag == "Boss") {
                     gameObject.GetComponent<Player>().thirst += enemy.thirstGift;
                     enemy.GetComponent<Rigidbody2D>().AddForce(new Vector3(bossKnockback * 

@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 
 public class Hand : MonoBehaviour
 {
-    public CinemachineVirtualCamera cam;
+    public CameraFollow cam;
     public Rigidbody2D rb;
     public float speed;
 
